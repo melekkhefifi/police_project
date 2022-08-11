@@ -1,0 +1,43 @@
+version : '3' 
+services :
+  
+  app: 
+    container_name: docker-node-mongo2 
+    restart : always
+    build : ./ministere_interieur 
+    ports : 
+     - 9001:9001
+    links : 
+     - mongo3
+  mongo3:
+    container_name: mongo3 
+    image: mongo
+    ports:
+     - 27019:27017 
+
+  app1: 
+    container_name: docker-node-mongo1 
+    restart : always 
+    build : ./ministere_finance 
+    ports : 
+     - 8000:8000
+    links : 
+     - mongo   
+  mongo:
+    container_name: mongo 
+    image : mongo 
+    ports :
+     - 27017:27017 
+  fronte: 
+    container_name: docker-react-mongo 
+    restart : always 
+    stdin_open : true 
+    build : ./project-frontend-main
+    ports : 
+     - 3000:3000
+    links : 
+     - app 
+     - app1   
+  
+
+  
